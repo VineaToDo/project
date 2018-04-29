@@ -1,0 +1,63 @@
+package com.version1.service.impl;
+
+import com.version1.VO.IdGetter;
+import com.version1.commons.utils.JsonUtil;
+import com.version1.entity.ResumeInfo;
+import com.version1.repository.ResumeRepository;
+import com.version1.service.ResumeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @ClassName ResumeServiceImpl
+ * @Description TODO
+ * @Date 2018/4/28 22:48
+ * @Version 1.0
+ */
+@Service
+@Transactional
+public class ResumeServiceImpl implements ResumeService {
+
+    @Autowired
+    private ResumeRepository resumeRepository;
+
+    /**
+     * @Description 通过反射和泛型对类型为Json的字段值进行相应的插入或更新
+     * @Date 22:59 2018/4/28
+     * @Param [resumeInfo, filedName, t]
+     * @return com.version1.entity.ResumeInfo
+     */
+    @Override
+    public <T extends IdGetter> boolean saveJsonFiled(ResumeInfo resumeInfo, String filedName, T t) {
+        try {
+            Method method = resumeInfo.getClass().getMethod("get" + filedName);
+            String val = (String) method.invoke(resumeInfo);
+            List listmodel;
+            if (t.getId()==null){
+                if(val == null){
+                    listmodel = new ArrayList();
+                }else {
+                    listmodel = JsonUtil.jsontoList(val,t.getClass());
+                }
+                listmodel.add(t);
+            }else {
+                listmodel = JsonUtil.jsontoList(val,t.getClass());
+                listmodel.set(t.getId(),t);
+            }
+
+            resumeInfo.getClass().getMethod("set"+filedName,String.class).invoke(resumeInfo,JsonUtil.toJsonString(listmodel));
+            resumeRepository.save(resumeInfo);
+
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+}

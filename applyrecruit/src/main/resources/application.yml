@@ -1,0 +1,27 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/apply_recruit?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: code
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+      naming:
+        strategy: org.hibernate.cfg.DefaultComponentSafeNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: true
+  freemarker:
+    charset: UTF-8
+    content-type: text/html
+    suffix: .ftl
+    enabled: true
+    request-context-attribute: request
+    check-template-location: false
+    template-loader-path: classpath:/templates/
+    cache: false
