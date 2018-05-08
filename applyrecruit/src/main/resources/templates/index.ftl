@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>Title</title>
+    <title>招聘首页</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <#--<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.min.css">-->
-    <#--<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">-->
-    <#--<link rel="stylesheet" type="text/css" href="/css/magnific-popup.css">-->
-    <#--<link rel="stylesheet" type="text/css" href="/css/templatemo-style.css">-->
-
 
 </head>
 <body>
@@ -28,21 +23,10 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="home-info">
-                        <h1>We make beautiful websites for all people.</h1>
-                        <a href="#about" class="btn section-btn smoothScroll">Start a project</a>
-                        <span>
-                                   CALL US (+66) 010-020-0340
-                                   <small>For any inquiry</small>
-                              </span>
+                        <h1>Find the best Job!</h1>
+                        <a href="#about" class="btn section-btn smoothScroll">Get Some Informations</a>
                     </div>
                 </div>
-                <#--<div class="col-md-6 col-sm-12">-->
-                    <#--<div class="home-video">-->
-                        <#--<div class="embed-responsive embed-responsive-16by9">-->
-                            <#--<iframe src="https://www.youtube.com/embed/AqcjdkPMPJA" frameborder="0" allowfullscreen></iframe>-->
-                        <#--</div>-->
-                    <#--</div>-->
-                <#--</div>-->
             </div>
         </div>
     </section>
@@ -266,7 +250,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 col-sm-8">
+                <div class="col-md-12 col-sm-12">
 
                     <!-- CONTACT FORM HERE -->
                     <form id="contact-form" role="form" action="#" method="post">
@@ -303,18 +287,6 @@
                         </div>
 
                     </form>
-                </div>
-
-                <div class="col-md-4 col-sm-4">
-                    <div class="google-map">
-                        <!-- How to change your own map point
-                                1. Go to Google Maps
-                                2. Click on your location point
-                                3. Click "Share" and choose "Embed map" tab
-                                4. Copy only URL and paste it within the src="" field below
-                        -->
-                        <iframe src="" allowfullscreen></iframe>
-                    </div>
                 </div>
 
             </div>

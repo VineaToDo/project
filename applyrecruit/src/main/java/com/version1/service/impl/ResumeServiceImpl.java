@@ -1,10 +1,12 @@
 package com.version1.service.impl;
 
-import com.version1.VO.IdGetter;
+import com.version1.VO.*;
 import com.version1.commons.utils.JsonUtil;
+import com.version1.commons.utils.StringUtil;
 import com.version1.entity.ResumeInfo;
 import com.version1.repository.ResumeRepository;
 import com.version1.service.ResumeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.List;
  */
 @Service
 @Transactional
+@Slf4j
 public class ResumeServiceImpl implements ResumeService {
 
     @Autowired
@@ -58,6 +61,29 @@ public class ResumeServiceImpl implements ResumeService {
             e.printStackTrace();
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean deleteJsonFiled(ResumeInfo resumeInfo, String deleteType, int index) {
+
+        deleteType = StringUtil.toUpperCaseInitial(deleteType);
+        try {
+            Method method = resumeInfo.getClass().getMethod("get" + deleteType);
+            String val = (String) method.invoke(resumeInfo);
+            List listmodel = JsonUtil.jsontoList(val,Class.forName("com.version1.VO."+(deleteType.equals("internship")?"WorkExperience":deleteType)+"VO"));
+
+            listmodel.remove(index);
+
+            resumeInfo.getClass().getMethod("set"+deleteType,String.class).invoke(resumeInfo,JsonUtil.toJsonString(listmodel));
+            resumeRepository.save(resumeInfo);
+
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
         return true;
     }
 }

@@ -49,7 +49,11 @@ public class UserInfo {
     private List<SysRole> roleList;// 一个用户具有多个角色
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "resume_id")
+    @JoinColumn(name = "companyId")
+    private CompanyInfo companyInfo;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "resumeId")
     private ResumeInfo resumeInfo;
 
     //用户 -- 职位：多对多关系（收藏表）

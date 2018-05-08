@@ -1,8 +1,6 @@
 package com.version1.VO;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.version1.commons.enums.EduDgreeEnum;
-import com.version1.commons.utils.EnumUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -29,9 +27,9 @@ public class EducationVO implements IdGetter {
     private Integer degree;//学历
     private Integer single;//是否统一招生
 
-    @JSONField(serialize = false)
-    public EduDgreeEnum getEduDgreeEnum(){
-        return EnumUtil.getByCode(degree,EduDgreeEnum.class);
-    }
+//    @JSONField(serialize = false)
+//    public EduDgreeEnum getEduDgreeEnum(){
+//        return EnumUtil.getByCode(degree,EduDgreeEnum.class);
+//    }
 
 }

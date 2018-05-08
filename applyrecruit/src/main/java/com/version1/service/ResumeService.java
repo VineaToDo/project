@@ -10,6 +10,7 @@ public interface ResumeService {
     <T extends IdGetter> boolean saveJsonFiled(ResumeInfo resumeInfo, String filedName, T t);
 
 
+    boolean deleteJsonFiled(ResumeInfo resumeInfo, String deleteType,int index);
 
 
 }

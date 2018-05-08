@@ -1,5 +1,6 @@
 package com.version1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,18 +25,20 @@ public class Department {
     @GeneratedValue
     private Integer id;
     @Column(length = 64)
-    private String departmentName;
+    private String name;
 
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP")
     private Date createdTime;
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP on update current_timestamp(0)")
     private Date updatedTime;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private CompanyInfo companyInfo;
 
     //部门 -- 职位：一对多关系
+    @JsonIgnore
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "department_id")
     private List<Position> positions;

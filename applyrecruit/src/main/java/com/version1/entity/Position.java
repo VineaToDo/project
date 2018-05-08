@@ -1,5 +1,6 @@
 package com.version1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,9 +21,14 @@ import java.util.Set;
 @DynamicInsert
 public class Position {
 
+    @Transient
+    private Integer deptId;
+
     @Id
     @GeneratedValue
     private Integer id;
+    @Column(length = 64)
+    private String name;//职位名称
     @Column(length = 16)
     private String salary;//职位月薪
     @Column(length = 32)
@@ -35,6 +41,8 @@ public class Position {
     private Integer recruitNum;//招聘人数
     @Column(length = 32)
     private String type;//职位类型
+    @Column(length = 8)
+    private String degree;//学历要求
     @Column(columnDefinition = "text")
     private String description;//职位描述
     @Column(length = 128)
@@ -46,6 +54,7 @@ public class Position {
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP on update current_timestamp(0)")
     private Date updatedTime;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "company_id")
     private CompanyInfo companyInfo;

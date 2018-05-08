@@ -1,0 +1,36 @@
+[
+  {
+  "value":0,
+  "name":"英语"
+  },{
+  "value":1,
+  "name":"日语"
+},{
+  "value":2,
+  "name":"法语"
+},{
+  "value":3,
+  "name":"德语"
+},{
+  "value":4,
+  "name":"俄语"
+},{
+  "value":5,
+  "name":"韩语"
+},{
+  "value":6,
+  "name":"西班牙语"
+},{
+  "value":7,
+  "name":"葡萄牙语"
+},{
+  "value":8,
+  "name":"阿拉伯语"
+},{
+  "value":9,
+  "name":"意大利语"
+},{
+  "value":10,
+  "name":"中文普通话"
+}
+]

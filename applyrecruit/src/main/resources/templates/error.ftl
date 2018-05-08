@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>错误页</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.min.css">
 </head>
 <body>
-错误页！
+    <div class="container">
+        <img src="/images/error.jpg" class="img-responsive center-block">
+    </div>
 </body>
 </html>

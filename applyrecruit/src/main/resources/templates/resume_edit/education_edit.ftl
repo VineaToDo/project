@@ -2,17 +2,10 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Title</title>
     <style>
-        .outer_box{
-            width: 960px;
-            height: auto;
-            padding-top: 8em;
-            text-align: left;
-            margin-left: auto;
-            margin-right: auto;
-            clear: both;
-        }
+
     </style>
 
 </head>
@@ -25,9 +18,9 @@
                 <h3 class="panel-title">编辑教育背景</h3>
             </div>
             <div class="panel-body">
-                <form action="/resume/addEducation" class="form-horizontal" role="form" method="post">
+                <form action="/resume/updateEducation" class="form-horizontal" role="form" method="post">
                     <div class="form-group">
-                        <label for="phone" class="col-md-offset-2 col-md-2 control-label">学校名称</label>
+                        <label for="school" class="col-md-offset-2 col-md-2 control-label">学校名称</label>
                         <div class="col-md-5"><input type="text" class="form-control" id="school" placeholder="" name="school" value="<#if education??>${education.school}</#if>"></div>
                     </div>
                     <div class="form-group">
@@ -37,13 +30,13 @@
                     <div class="form-group">
                         <label for="single" class="col-md-offset-2 col-md-2 control-label">是否统招</label>
                         <div class="col-md-5">
-                            <label class="radio--inline"><input type="radio" id="yes" name="single" value="1" checked>是</label>
-                            <label class="radio--inline"><input type="radio" id="no" value="0" name="single" <#if education?? && education.single?? && education.single == 0> checked</#if>>否</label>
+                            <label class="radio-inline"><input type="radio" id="yes" name="single" value="1" checked>是</label>
+                            <label class="radio-inline"><input type="radio" id="no" value="0" name="single" <#if education?? && education.single?? && education.single == 0> checked</#if>>否</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-offset-2 col-md-2 control-label">就读时间</label>
-                        <div class="col-md-6" style="font-size: 8px" id="studyTime"><div class="input-group"><div class="input-group date" id="beginDatepicker">
+                        <div class="col-md-5" style="font-size: 8px" id="studyTime"><div class="input-group"><div class="input-group date" id="beginDatepicker">
                             <input type="text" class="form-control" id="beginDateInput" name="beginDate" value="<#if education??>${education.beginDate?string("yyyy-MM")}</#if>" readonly>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span><span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
                         </div><label class="input-group-addon" style="background-color: #ffffff;border: none;width: 20px">至</label>
@@ -54,11 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="degree" class="col-md-offset-2 col-md-2 control-label">学历</label>
-                        <div class="col-md-5"><select class="selectpicker" id="degreeSelect"  name="degree">
-                            <#list eduEnum as enum>
-                                <option value="${enum.code}" <#if education?? && education.degree == enum.code>selected</#if>>${enum.message}</option>
-                            </#list>
-                        </select></div>
+                        <div class="col-md-5" id="degreeDiv"></div>
                     </div>
                     <#if education??><input name="id" type="hidden" value="${id}"></#if>
                     <div class="form-group">
@@ -72,10 +61,6 @@
         </div>
     </section>
 <script>
-    $('#degreeSelect').selectpicker({
-        noneSelectedText : '请选择'//默认显示内容
-    });
-
     $('#beginDatepicker').datetimepicker({
         language:  'zh-CN',
         format:'yyyy-mm',
@@ -110,6 +95,31 @@
             $("#beginDatepicker").datetimepicker('setEndDate',new Date());
         }
     });
+
+    // $.ajaxSettings.async = false;
+    $.getJSON('/json/edudegree.json',function (data) {
+        var $div = $('#degreeDiv');
+        initSelect($div,data,"degree");
+        <#if education?? && education.degree??>
+            $('#degreeSelect').selectpicker('val',${education.degree});
+        </#if>
+        $('.selectpicker').selectpicker('refresh');
+    });
+
+    // $.ajaxSettings.async = true;
+    function initSelect(parent,data,selectName) {
+        var select = $("<select class='selectpicker form-control' multiple data-max-options='1' id='" + selectName + "Select' name='" + selectName + "'></select>");
+        for (var i = 0;i < data.length;i++){
+            var option = $("<option value='"+ data[i].value +"'>" + data[i].name +"</option>");
+            $(select).append(option).appendTo(parent);
+        }
+    }
+
+    // $('#degreeSelect').selectpicker({
+    //     noneSelectedText : '请选择'//默认显示内容
+    //
+    // });
+
 </script>
 </body>
 </html>

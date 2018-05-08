@@ -1,8 +1,7 @@
 package com.version1.controller;
 
-import com.version1.VO.EducationVO;
-import com.version1.VO.WorkExVO;
-import com.version1.commons.enums.EduDgreeEnum;
+import com.version1.VO.*;
+import com.version1.commons.utils.ControllerUtil;
 import com.version1.commons.utils.JsonUtil;
 import com.version1.entity.PersonalInfo;
 import com.version1.entity.ResumeInfo;
@@ -15,11 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Arrays;
 
 /**
  * @ClassName ResumeController
@@ -57,21 +54,10 @@ public class ResumeController extends BaseController {
         return "/test";
     }
 
-
-    @PostMapping("/updatePersonal")
-    public String updatePersonnal(@ModelAttribute PersonalInfo personalInfo) {
-        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
-        resumeInfo.setPersonalInfo(personalInfo);
-        resumeRepository.save(resumeInfo);
-        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-        getModelMap().addAttribute("educationList",JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class));
-        return "resume_view";
-    }
-
     @GetMapping("/getResume")
     public String getResume() {
         try {
-            UserInfo userInfo = userRepository.findByUserName("test01");
+            UserInfo userInfo = userRepository.findByUserName("user");
             HttpSession session = getRequest().getSession();
             if (session.getAttribute("user") == null){
                 session.setAttribute("user",userInfo);
@@ -84,14 +70,24 @@ public class ResumeController extends BaseController {
         log.info("登录成功");
         UserInfo userInfo = (UserInfo) getRequest().getSession().getAttribute("user");
         ResumeInfo resumeInfo = userInfo.getResumeInfo();
-        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-        getModelMap().addAttribute("educationList", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class));
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
 
         return "resume_view";
     }
 
-    @PostMapping("/addEducation")
-    public String addEducation(@Valid EducationVO educationVO, BindingResult bindingResult) {
+    @PostMapping("/updatePersonal")
+    public String updatePersonnal(@ModelAttribute PersonalInfo personalInfo) {
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeInfo.setPersonalInfo(personalInfo);
+        resumeRepository.save(resumeInfo);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        return "resume_view";
+    }
+
+    @PostMapping("/updateEducation")
+    public String updateEducation(@Valid EducationVO educationVO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getFieldError().getDefaultMessage());
             return "error";
@@ -99,32 +95,170 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Education",educationVO);
 
-        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-        getModelMap().addAttribute("educationList", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class));
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+//        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
+//        getModelMap().addAttribute("educationList", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class));
+//        getModelMap().addAttribute("workList",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExperienceVO.class));
         return "resume_view";
     }
 
+    @PostMapping("/updateWork")
+    public String updateWork(@Valid WorkExperienceVO workExperienceVO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo, workExperienceVO.getIsInternship() == 1?"Internship":"WorkExperience", workExperienceVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+//        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
+//        getModelMap().addAttribute("educationList",JsonUtil.jsontoList(resumeInfo.getEducation(),EducationVO.class));
+//        getModelMap().addAttribute("workList",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExperienceVO.class));
+//        getModelMap().addAttribute("internshipList",JsonUtil.jsontoList(resumeInfo.getInternship(),WorkExperienceVO.class));
+
+        return "resume_view";
+    }
+    @PostMapping("/updateTraining")
+    public String updateTraining(@Valid TrainingVO trainingVO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo,"Training",trainingVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+    @PostMapping("/updateLanguage")
+    public String updateLanguage(@Valid LanguageVO languageVO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo,"Language",languageVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+
+    @PostMapping("/updateCredential")
+    public String updateCredential(@Valid CredentialVO credentialVO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo,"Credential",credentialVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+    @PostMapping("/updateSkill")
+    public String updateSkill(@Valid SkillVO skillVO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo,"Skill",skillVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+    @PostMapping("/updateProject")
+    public String updateProject(@Valid ProjectVO projectVO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult.getFieldError().getDefaultMessage());
+            return "error";
+        }
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+        resumeService.saveJsonFiled(resumeInfo,"Project",projectVO);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+
+    @GetMapping("/delete/{deleteType}")
+    public String deleteResumeInfo(@PathVariable String deleteType, @RequestParam(value = "id") int index){
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
+
+        resumeService.deleteJsonFiled(resumeInfo,deleteType,index);
+
+        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+
+        return "resume_view";
+    }
+
+
+
     @GetMapping("/edit/{editType}")
     public String insertOrUpdate(@PathVariable String editType, @RequestParam(value = "id", required = false) String index) {
-        UserInfo userInfo = (UserInfo) getRequest().getSession().getAttribute("user");
-        ResumeInfo resumeInfo = userInfo.getResumeInfo();
+        ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         switch (editType){
             case "education":
                 if (index != null) {
                     getModelMap().addAttribute("id", index);
                     getModelMap().addAttribute("education", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class).get(Integer.parseInt(index)));
                 }
-                getModelMap().addAttribute("eduEnum", Arrays.asList(EduDgreeEnum.values()));
+//                getModelMap().addAttribute("eduEnum", Arrays.asList(EduDgreeEnum.values()));
                 break;
             case "perInfo":
                 getModelMap().addAttribute(resumeInfo.getPersonalInfo());
                 break;
             case "jobIntension":
                 break;
-            case "workExper":
+            case "work":
                 if(index != null){
                     getModelMap().addAttribute("id",index);
-                    getModelMap().addAttribute("workExper",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExVO.class).get(Integer.parseInt(index)));
+                    getModelMap().addAttribute("work",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExperienceVO.class).get(Integer.parseInt(index)));
+                }
+                break;
+            case "internship":
+                if(index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("work",JsonUtil.jsontoList(resumeInfo.getInternship(),WorkExperienceVO.class).get(Integer.parseInt(index)));
+                }
+                getModelMap().addAttribute("internship","internship");
+                editType = "work";
+                break;
+            case "training":
+                if (index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("training",JsonUtil.jsontoList(resumeInfo.getTraining(),TrainingVO.class).get(Integer.parseInt(index)));
+                }
+                break;
+            case "language":
+                if (index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("language",JsonUtil.jsontoList(resumeInfo.getLanguage(),LanguageVO.class).get(Integer.parseInt(index)));
+                }
+                break;
+            case "credential":
+                if (index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("credential",JsonUtil.jsontoList(resumeInfo.getCredential(),CredentialVO.class).get(Integer.parseInt(index)));
+                }
+                break;
+            case "skill":
+                if(index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("skill",JsonUtil.jsontoList(resumeInfo.getSkill(),SkillVO.class).get(Integer.parseInt(index)));
+                }
+                break;
+            case "project":
+                if(index != null){
+                    getModelMap().addAttribute("id",index);
+                    getModelMap().addAttribute("projectEx",JsonUtil.jsontoList(resumeInfo.getProject(),ProjectVO.class).get(Integer.parseInt(index)));
                 }
                 break;
             case "":

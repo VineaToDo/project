@@ -2,17 +2,9 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Title</title>
     <style>
-        .outer_box{
-            width: 960px;
-            height: auto;
-            padding-top: 8em;
-            text-align: left;
-            margin-left: auto;
-            margin-right: auto;
-            clear: both;
-        }
     </style>
 </head>
 <body>
@@ -80,37 +72,11 @@
                     </div>
                     <div class="form-group">
                         <label for="politics" class="col-md-offset-2 col-md-2 control-label">政治面貌</label>
-                        <div class="col-md-5" id="politicsDiv">
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="politics1" name="politics" value="中共党员(含预备党员)" checked>中共党员(含预备党员)-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="politics2" name="politics" value="团员">团员-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="politics3" name="politics" value="群众">群众-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="politics4" name="politics" value="民主党派">民主党派-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="politics5" name="politics" value="其他">其他-->
-                            <#--</label>-->
-                        </div>
+                        <div class="col-md-5" id="politicsDiv"></div>
                     </div>
                     <div class="form-group">
                         <label for="marital" class="col-md-offset-2 col-md-2 control-label">婚姻状况</label>
-                        <div class="col-md-5" id="maritalDiv">
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="marital1" name="marital" value="未婚" checked>未婚-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="marital2" name="marital" value="已婚">已婚-->
-                            <#--</label>-->
-                            <#--<label class="radio-inline">-->
-                                <#--<input type="radio" id="marital3" name="marital" value="离异">离异-->
-                            <#--</label>-->
-                        </div>
+                        <div class="col-md-5" id="maritalDiv"> </div>
                     </div>
                     <input type="hidden" name="id" value="${personalInfo.id}">
                     <div class="form-group">
@@ -145,11 +111,6 @@
         startView: 'year',
         minView:'year', /*精确到月*/
         pickerPosition: "bottom-left"
-    });
-
-
-    $('#degreeSelect').selectpicker({
-        noneSelectedText : '请选择'//默认显示内容
     });
 
     $.getJSON('/json/sql_areas.json',function(data){
