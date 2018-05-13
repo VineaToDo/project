@@ -64,6 +64,10 @@ public class Position {
     @JoinColumn(name = "department_id")
     private Department department;
 
+    @ManyToOne(cascade =  CascadeType.ALL)
+    @JoinColumn(name = "typeId")
+    private JobType jobType;
+
     //简历 -- 职位：多对多关系（投递表）
     @ManyToMany(mappedBy = "positions")
     private Set<ResumeInfo> resumeInfos;

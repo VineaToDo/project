@@ -1,5 +1,7 @@
 package com.version1.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -39,24 +41,31 @@ public class UserInfo {
     @Column(length = 12)
     private String phone;
 
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP")
     private Date createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP on update current_timestamp(0)")
     private Date updatedTime;
 
-    @ManyToMany//(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
-    @JoinTable(name = "SysUserRole", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns ={@JoinColumn(name = "roleId") })
-    private List<SysRole> roleList;// 一个用户具有多个角色
+    @JsonIgnore
+    @ManyToOne(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
+    @JoinColumn(name = "roleId")
+    private SysRole role;// 一个用户具有一个角色
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "companyId")
     private CompanyInfo companyInfo;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "resumeId")
     private ResumeInfo resumeInfo;
 
+
     //用户 -- 职位：多对多关系（收藏表）
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "collection",joinColumns = {@JoinColumn(name = "uid")},inverseJoinColumns = {@JoinColumn(name = "positionId")})
     private Set<Position> positions;

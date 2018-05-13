@@ -30,7 +30,9 @@
                     </div>
                     <div class="form-group">
                         <label for="trade" class="col-md-offset-2 col-md-2 control-label">所属行业</label>
-                        <div class="col-md-5"><input type="text" class="form-control" id="trade" placeholder="" name="trade" value="<#if company??&& company.trade??>${company.trade}</#if>"></div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="trade" placeholder="" name="trade" value="<#if company??&& company.trade??>${company.trade}</#if>">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="workplace" class="col-md-offset-2 col-md-2 control-label">公司地点</label>
@@ -60,7 +62,6 @@
                         <div class="col-md-5"><textarea class="form-control" name="introduction" rows="3"><#if company??>${company.introduction}</#if></textarea></div>
                     </div>
 
-                    <#if education??><input name="id" type="hidden" value="${id}"></#if>
                     <div class="form-group">
                         <div class="col-md-push-7 col-md-9">
                             <button type="submit" class="btn btn-primary">保存</button>
@@ -72,6 +73,7 @@
         </div>
 
     </section>
+
     <script src="/js/custom.js"></script>
 
 <script>
@@ -89,7 +91,7 @@
         var $div = $('#propertyDiv');
         initSelect($div,data,"property");
         <#if company?? && company.property??>
-            $('#propertySelect').selectpicker('val',${company.property});
+            $('#propertySelect').selectpicker('val',"${company.property}");
         </#if>
         $('#propertySelect').selectpicker({
             noneSelectedText : '请选择'//默认显示内容

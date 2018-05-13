@@ -78,7 +78,7 @@
                                         <dt>邮箱</dt>
                                         <dd>${personalInfo.email}</dd>
                                         <dt>生日</dt>
-                                        <dd>${personalInfo.birthday?string("yyyy-MM")}</dd>
+                                        <dd>${personalInfo.birthday?string("yyyy-MM-dd")}</dd>
                                         <#if personalInfo.city??>
                                             <dt>所在地</dt>
                                             <dd>${personalInfo.city}</dd>

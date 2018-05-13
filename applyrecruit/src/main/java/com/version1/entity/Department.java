@@ -1,5 +1,6 @@
 package com.version1.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,8 +28,10 @@ public class Department {
     @Column(length = 64)
     private String name;
 
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP")
     private Date createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP on update current_timestamp(0)")
     private Date updatedTime;
 

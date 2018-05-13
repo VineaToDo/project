@@ -9,8 +9,6 @@
     <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-chinese-region.css">
     <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-table.css">
-    <#--<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-combined.css">-->
-    <#--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">-->
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="/css/templatemo-style.css">
@@ -73,7 +71,6 @@
             </ul>
             </#if>
         </div>
-
     </div>
 </section>
 

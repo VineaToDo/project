@@ -29,6 +29,12 @@ public class UserController extends BaseController {
         ResultVO resultVO = new ResultVO();
         return resultVO;
     }
+
+    @GetMapping("/admin")
+    public String adminlogin(){
+        return "/admin/index";
+    }
+
     @RequestMapping("/welcome")
     public String welcome(){
         getModelMap().put("user",userRepository.findOne(1));
@@ -70,12 +76,9 @@ public class UserController extends BaseController {
         }
         log.info("登录成功");
 
-        List<SysRole> roleList = userInfo.getRoleList();
-        for (SysRole role: roleList){
-            if(role.getRole().equals("recruit")){
-                return "/enterprise/index";
-            }
-        }
+        SysRole role = userInfo.getRole();
+        if(role.getRole().equals("recruit"))
+            return "/enterprise/index";
 
         return "index";
     }

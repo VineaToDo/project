@@ -40,8 +40,7 @@ public class SysRole {
     private List<SysPermission> permissions;
 
     // 用户 - 角色关系定义;
-    @ManyToMany
-    @JoinTable(name="SysUserRole",joinColumns={@JoinColumn(name="roleId")},inverseJoinColumns={@JoinColumn(name="uid")})
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "role")
     private List<UserInfo> userInfos;// 一个角色对应多个用户
 
 }
