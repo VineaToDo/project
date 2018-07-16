@@ -1,7 +1,5 @@
 网上求职招聘系统
 ==============
-源代码
---------------
 	框架技术选择：
 		`1.Spring全家桶 - SpringBoot+SpringDataJPA`
 		`2.FreeMarker`
