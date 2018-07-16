@@ -1,6 +1,5 @@
-# 网上求职招聘系统
+网上求职招聘系统
 ==============
-
 |Author|Vinea|
 |---|---
 |E-mail|1530027668@qq.com
@@ -8,12 +7,10 @@
 ****
 
 	框架技术选择：
-```
-1.Spring全家桶 - SpringBoot+SpringDataJPA
-2.FreeMarker`
-3.Shiro集成简单登录验证,改写了自动登录功能
-4.BootStrap,EasyUI
-```
+		1. Spring全家桶 - SpringBoot+SpringDataJPA
+		2. FreeMarker
+		3. Shiro集成简单登录验证,改写了自动登录功能
+		4. BootStrap,EasyUI
 	系统描述：
 		系统功能上从三个角色进行划分：`求职者用户`,`企业用户`和`后台管理员`:
 		（1）匿名游客
