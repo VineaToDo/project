@@ -2,13 +2,14 @@ package com.version1.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,10 +20,11 @@ import java.util.Set;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @DynamicUpdate
 @DynamicInsert
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     @Id
     @GeneratedValue
@@ -40,33 +42,38 @@ public class UserInfo {
     private String email;
     @Column(length = 12)
     private String phone;
+    @Column(length = 128)
+    private String head;//头像路径
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP")
     private Date createdTime;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Column(columnDefinition = "timestamp null default CURRENT_TIMESTAMP on update current_timestamp(0)")
     private Date updatedTime;
+
+    @Transient
+    @JsonIgnore
+    private Integer roleId;
 
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER)//立即从数据库中进行加载数据;
     @JoinColumn(name = "roleId")
     private SysRole role;// 一个用户具有一个角色
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "companyId")
     private CompanyInfo companyInfo;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "resumeId")
     private ResumeInfo resumeInfo;
 
 
     //用户 -- 职位：多对多关系（收藏表）
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinTable(name = "collection",joinColumns = {@JoinColumn(name = "uid")},inverseJoinColumns = {@JoinColumn(name = "positionId")})
     private Set<Position> positions;
 

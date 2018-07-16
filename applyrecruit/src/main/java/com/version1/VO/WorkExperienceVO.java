@@ -2,6 +2,7 @@ package com.version1.VO;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -26,10 +27,18 @@ public class WorkExperienceVO implements IdGetter{
     private String type;//职位类别
     private Integer salary;//税前月薪
     private String description;//经历描述
+    @JSONField(serialize = false)
+    private String propertyValue;
+    @JSONField(serialize = false)
+    private String dimensionsValue;
+    @JSONField(serialize = false)
+    private String salaryValue;
 
     //工作开始和结束时间
+    @DateTimeFormat(pattern = "yyyy-MM")
     @JSONField(format="yyyy-MM")
     private Date beginDate;
+    @DateTimeFormat(pattern = "yyyy-MM")
     @JSONField(format="yyyy-MM")
     private Date endDate;
 

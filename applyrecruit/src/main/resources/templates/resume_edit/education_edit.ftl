@@ -47,7 +47,13 @@
                     </div>
                     <div class="form-group">
                         <label for="degree" class="col-md-offset-2 col-md-2 control-label">学历</label>
-                        <div class="col-md-5" id="degreeDiv"></div>
+                        <div class="col-md-5" id="degreeDiv">
+                            <select class="selectpicker" multiple data-max-options='1' id='degreeSelect' name='degree'>
+                                <#list eduDegreeDict?values as eduDegreeOpt>
+                                    <option value="${eduDegreeOpt.code}">${eduDegreeOpt.value}</option>
+                                </#list>
+                            </select>
+                        </div>
                     </div>
                     <#if education??><input name="id" type="hidden" value="${id}"></#if>
                     <div class="form-group">
@@ -96,29 +102,14 @@
         }
     });
 
-    // $.ajaxSettings.async = false;
-    $.getJSON('/json/edudegree.json',function (data) {
-        var $div = $('#degreeDiv');
-        initSelect($div,data,"degree");
-        <#if education?? && education.degree??>
+    <#if education?? && education.degree??>
             $('#degreeSelect').selectpicker('val',${education.degree});
-        </#if>
-        $('.selectpicker').selectpicker('refresh');
+    </#if>
+
+    $('#degreeSelect').selectpicker({
+        noneSelectedText : '请选择'//默认显示内容
+
     });
-
-    // $.ajaxSettings.async = true;
-    function initSelect(parent,data,selectName) {
-        var select = $("<select class='selectpicker form-control' multiple data-max-options='1' id='" + selectName + "Select' name='" + selectName + "'></select>");
-        for (var i = 0;i < data.length;i++){
-            var option = $("<option value='"+ data[i].value +"'>" + data[i].name +"</option>");
-            $(select).append(option).appendTo(parent);
-        }
-    }
-
-    // $('#degreeSelect').selectpicker({
-    //     noneSelectedText : '请选择'//默认显示内容
-    //
-    // });
 
 </script>
 </body>

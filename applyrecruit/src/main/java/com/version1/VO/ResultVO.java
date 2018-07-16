@@ -9,7 +9,7 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class ResultVO<T> {
+public class ResultVO<T>{
 
     /** 错误码. */
     private Integer code;
@@ -18,4 +18,16 @@ public class ResultVO<T> {
     /** 返回数据. */
     private T data;
 
+    public ResultVO(){};
+
+    public ResultVO(Integer code, String msg){
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public ResultVO(Integer code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
 }

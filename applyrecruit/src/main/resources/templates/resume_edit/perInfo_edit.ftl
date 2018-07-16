@@ -31,7 +31,14 @@
                     </div>
                     <div class="form-group">
                         <label for="gender" class="col-md-offset-2 col-md-2 control-label">性别</label>
-                        <div class="col-md-5" id="genderDiv"></div>
+                        <div class="col-md-5" id="genderDiv">
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" value="1" checked>&nbsp;男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" value="0" <#if personalInfo?? && personalInfo.gender==0>checked</#if>>&nbsp;女
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-md-offset-2 col-md-2 control-label">所在地</label>
@@ -72,13 +79,27 @@
                     </div>
                     <div class="form-group">
                         <label for="politics" class="col-md-offset-2 col-md-2 control-label">政治面貌</label>
-                        <div class="col-md-5" id="politicsDiv"></div>
+                        <div class="col-md-8" id="politicsDiv">
+                            <#list politicsDict?values as politicsOpt>
+                                <label class="radio-inline">
+                                    <input type="radio" name="politics" value="${politicsOpt.code}">&nbsp;${politicsOpt.value}
+                                </label>
+                            </#list>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="marital" class="col-md-offset-2 col-md-2 control-label">婚姻状况</label>
-                        <div class="col-md-5" id="maritalDiv"> </div>
+                        <div class="col-md-5" id="maritalDiv">
+                            <#list maritalDict?values as maritalOpt>
+                                <label class="radio-inline">
+                                    <input type="radio" name="marital" value="${maritalOpt.code}">&nbsp;${maritalOpt.value}
+                                </label>
+                            </#list>
+                        </div>
                     </div>
-                    <input type="hidden" name="id" value="${personalInfo.id}">
+                    <#if personalInfo??>
+                        <input type="hidden" name="id" value="${personalInfo.id}">
+                    </#if>
                     <div class="form-group">
                         <div class="col-md-push-7 col-md-9">
                             <button type="submit" class="btn btn-primary">保存</button>
@@ -105,7 +126,7 @@
         language: 'zh-CN',
         todayHighlight: true,
         // todayBtn: true.toSource
-        format:'yyyy-mm-dd',
+        format:'yyyy-mm',
         weekStart: 0, /*以星期一为一星期开始*/
         autoclose: 1,
         startView: 'year',
@@ -123,27 +144,12 @@
         });
     });
 
-    $.getJSON('/json/gender.json',function (data) {
-        var $div = $('#genderDiv');
-        initRadio($div,data,"gender");
-        <#if personalInfo?? && personalInfo.gender??>
-            $("input[name=gender][value=${personalInfo.gender}]").attr("checked",true);
-        </#if>
-    });
-    $.getJSON('/json/politics.json',function (data) {
-        var $div = $('#politicsDiv');
-        initRadio($div,data,"politics");
-        <#if personalInfo?? && personalInfo.politics??>
-            $("input[name=politics][value=${personalInfo.politics}]").attr("checked",true);
-        </#if>
-    });
-    $.getJSON('/json/marital.json',function (data) {
-        var $div = $('#maritalDiv');
-        initRadio($div,data,"marital");
-        <#if personalInfo?? && personalInfo.marital??>
-            $("input[name=marital][value=${personalInfo.marital}]").attr("checked",true);
-        </#if>
-    });
+    <#if personalInfo?? && personalInfo.politics??>
+            $('input[name=politics][value=${personalInfo.politics}]').attr("checked",true);
+    </#if>
+    <#if personalInfo?? && personalInfo.marital??>
+            $('input[name=marital][value=${personalInfo.marital}]').attr("checked",true);
+    </#if>
 
     function initRadio(parent,data,radioName) {
         for (var i = 0;i < data.length;i++) {

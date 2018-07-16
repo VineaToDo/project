@@ -21,7 +21,13 @@
                 <form action="/resume/updateLanguage" class="form-horizontal" role="form" method="post">
                     <div class="form-group">
                         <label for="name" class="col-md-offset-2 col-md-2 control-label">语种</label>
-                        <div class="col-md-5" id="nameDiv"></div>
+                        <div class="col-md-5" id="nameDiv">
+                            <select class="selectpicker" multiple data-max-options='1' id='nameSelect' name='name'>
+                                <#list languageDict?values as languageOpt>
+                                    <option value="${languageOpt.code}">${languageOpt.value}</option>
+                                </#list>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="org" class="col-md-offset-2 col-md-2 control-label">读写能力</label>
@@ -68,27 +74,14 @@
             $('#speakSelect').selectpicker('val',"${language.speak}");
         </#if>
     });
-    
-    $.getJSON('/json/language.json',function (data) {
-        var $div = $('#nameDiv');
-        initSelect($div,data,"name");
-        <#if language?? && language.name??>
+
+    <#if language?? && language.name??>
             $('#nameSelect').selectpicker('val',${language.name});
-        </#if>
-        $('#nameSelect').selectpicker({
-            noneSelectedText : '请选择'//默认显示内容
-        });
-        $('#nameSelect').selectpicker('refresh');
+    </#if>
+    $('#nameSelect').selectpicker({
+        noneSelectedText : '请选择'//默认显示内容
     });
 
-    // $.ajaxSettings.async = true;
-    function initSelect(parent,data,selectName) {
-        var select = $("<select class='selectpicker form-control' multiple data-max-options='1' id='" + selectName + "Select' name='" + selectName + "'></select>");
-        for (var i = 0;i < data.length;i++){
-            var option = $("<option value='"+ data[i].value +"'>" + data[i].name +"</option>");
-            $(select).append(option).appendTo(parent);
-        }
-    }
 
 </script>
 </body>

@@ -1,22 +1,18 @@
 package com.version1.controller;
 
-import com.version1.VO.QueryParamVO;
+import com.version1.VO.QueryPositionVO;
 import com.version1.VO.ResultVO;
 import com.version1.VO.TableResponseVO;
-import com.version1.entity.CompanyInfo;
-import com.version1.entity.Department;
-import com.version1.entity.UserInfo;
-import com.version1.repository.CompanyRepository;
+import com.version1.entity.*;
 import com.version1.repository.DepartmentRepository;
-import com.version1.repository.UserRepository;
+import com.version1.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @ClassName CompanyController
@@ -29,30 +25,22 @@ import java.util.List;
 public class CompanyController extends BaseController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
-    @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @GetMapping("/editCompanyInfo")
     public String eidtPrepare(){
-
-        UserInfo userInfo = (UserInfo) getRequest().getSession().getAttribute("user");
-        if(userInfo.getCompanyInfo() != null)
-            getModelMap().addAttribute("company",userInfo.getCompanyInfo());
-
+        UserInfo userInfo = getLoginUser();
+        if(userInfo.getCompanyInfo() != null) {
+            getModelMap().addAttribute("company", userInfo.getCompanyInfo());
+        }
         return "/enterprise/companyInfo_edit";
     }
 
     @PostMapping("/saveCompany")
     public String saveCompanyInfo(@Valid CompanyInfo companyInfo){
 
-        CompanyInfo companyInfoNew = companyRepository.save(companyInfo);
-        UserInfo userInfo = (UserInfo) getRequest().getSession().getAttribute("user");
-        userInfo.setCompanyInfo(companyInfoNew);
-        userRepository.save(userInfo);
+        companyService.updateOrNewCompany(companyInfo,getLoginUser());
+
         return "/enterprise/index";
     }
 
@@ -64,38 +52,47 @@ public class CompanyController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/deptList")
-    public TableResponseVO deptList(QueryParamVO queryParamVO){
+    public TableResponseVO deptList(QueryPositionVO queryPositionVO){
         TableResponseVO tableResponseVO = new TableResponseVO();
-
-        int id =  ((UserInfo)getRequest().getSession().getAttribute("user")).getCompanyInfo().getId();
-        Page<Department> page = departmentRepository.findAllDepartmentsByCompanyId(id,new PageRequest(queryParamVO.getPageNumber()-1,queryParamVO.getPageSize()));
-
+        queryPositionVO.setCompanyId(getLoginUser().getCompanyInfo().getId());
+        Page<Department> page = companyService.findDeptList(queryPositionVO);
         tableResponseVO.setTotal((int)page.getTotalElements());
         tableResponseVO.setRows(page.getContent());
-
         return tableResponseVO;
     }
 
     @ResponseBody
     @PostMapping("/saveDepartments")
-    public ResultVO saveDepartments(@RequestParam String deptName){
+    public ResultVO saveDepartments(Department department){
+        int res;
         ResultVO resultVO = new ResultVO();
-        Department department = new Department();
-        department.setName(deptName);
+        department.setCompanyInfo(getLoginUser().getCompanyInfo());
         try {
-            department.setCompanyInfo(((UserInfo)getRequest().getSession().getAttribute("user")).getCompanyInfo());
-            departmentRepository.save(department);
+            res = companyService.saveDept(department,getLoginUser());
         } catch (Exception e) {
-            resultVO.setCode(0);
-            resultVO.setMsg("保存失败");
+            resultVO.setCode(-1);
+            resultVO.setMsg("操作失败");
             e.printStackTrace();
             return resultVO;
         }
-        resultVO.setCode(1);
-        resultVO.setMsg("保存成功");
-
+        if (res == 0){
+            resultVO.setCode(0);
+            resultVO.setMsg("新增成功");
+        }else {
+            resultVO.setCode(1);
+            resultVO.setMsg("修改成功");
+        }
         return resultVO;
     }
 
+    @ResponseBody
+    @RequestMapping("/delDept")
+    public ResultVO delDept(String ids){
+        if (companyService.deleteDept(ids,getLoginUser())){
+            return new ResultVO(1,"删除成功");
+        }else {
+            return new ResultVO(0,"删除失败");
+        }
+    }
 
 }

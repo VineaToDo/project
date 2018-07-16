@@ -6,8 +6,6 @@ import com.version1.commons.utils.JsonUtil;
 import com.version1.entity.PersonalInfo;
 import com.version1.entity.ResumeInfo;
 import com.version1.entity.UserInfo;
-import com.version1.repository.ResumeRepository;
-import com.version1.repository.UserRepository;
 import com.version1.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @ClassName ResumeController
@@ -30,59 +29,23 @@ import javax.validation.Valid;
 public class ResumeController extends BaseController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ResumeRepository resumeRepository;
-
-    @Autowired
     private ResumeService resumeService;
-    /**
-     * @Description 获取已登录用户
-     * @Date 23:37 2018/4/28
-     * @Param []
-     * @return com.version1.entity.UserInfo
-     */
-    private UserInfo getLoginUser(){
-        return (UserInfo) getRequest().getSession().getAttribute("user");
-    }
-
-    @GetMapping("/jsonInfo")
-    public String getJsonInfo() {
-        getModelMap().addAttribute("id",0);
-//        ResumeInfo resumeInfo = resumeRepository.findOne(1);
-        return "/test";
-    }
 
     @GetMapping("/getResume")
     public String getResume() {
-        try {
-            UserInfo userInfo = userRepository.findByUserName("user");
-            HttpSession session = getRequest().getSession();
-            if (session.getAttribute("user") == null){
-                session.setAttribute("user",userInfo);
-            }
-        } catch (Exception e) {
-            log.info("登录失败");
-            e.printStackTrace();
-            return "error";
-        }
-        log.info("登录成功");
-        UserInfo userInfo = (UserInfo) getRequest().getSession().getAttribute("user");
+        UserInfo userInfo = (UserInfo) getSession().getAttribute("user");
         ResumeInfo resumeInfo = userInfo.getResumeInfo();
-
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
-
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
         return "resume_view";
     }
 
     @PostMapping("/updatePersonal")
-    public String updatePersonnal(@ModelAttribute PersonalInfo personalInfo) {
+    public String updatePersonnal(PersonalInfo personalInfo) {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
-        resumeInfo.setPersonalInfo(personalInfo);
-        resumeRepository.save(resumeInfo);
+        if(resumeInfo == null) resumeInfo = new ResumeInfo();
+        resumeService.savePersonalInfo(personalInfo,resumeInfo,getLoginUser());
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
         return "resume_view";
     }
 
@@ -95,11 +58,8 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Education",educationVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
-//        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-//        getModelMap().addAttribute("educationList", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class));
-//        getModelMap().addAttribute("workList",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExperienceVO.class));
         return "resume_view";
     }
 
@@ -112,12 +72,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo, workExperienceVO.getIsInternship() == 1?"Internship":"WorkExperience", workExperienceVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
-
-//        getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-//        getModelMap().addAttribute("educationList",JsonUtil.jsontoList(resumeInfo.getEducation(),EducationVO.class));
-//        getModelMap().addAttribute("workList",JsonUtil.jsontoList(resumeInfo.getWorkExperience(),WorkExperienceVO.class));
-//        getModelMap().addAttribute("internshipList",JsonUtil.jsontoList(resumeInfo.getInternship(),WorkExperienceVO.class));
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -130,7 +85,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Training",trainingVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -143,7 +98,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Language",languageVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -157,7 +112,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Credential",credentialVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -170,7 +125,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Skill",skillVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -183,7 +138,7 @@ public class ResumeController extends BaseController {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         resumeService.saveJsonFiled(resumeInfo,"Project",projectVO);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
@@ -194,28 +149,24 @@ public class ResumeController extends BaseController {
 
         resumeService.deleteJsonFiled(resumeInfo,deleteType,index);
 
-        ControllerUtil.addAllResume(getModelMap(),resumeInfo);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
 
         return "resume_view";
     }
-
-
 
     @GetMapping("/edit/{editType}")
     public String insertOrUpdate(@PathVariable String editType, @RequestParam(value = "id", required = false) String index) {
         ResumeInfo resumeInfo = getLoginUser().getResumeInfo();
         switch (editType){
             case "education":
-                if (index != null) {
+                if (resumeInfo != null && index != null) {
                     getModelMap().addAttribute("id", index);
                     getModelMap().addAttribute("education", JsonUtil.jsontoList(resumeInfo.getEducation(), EducationVO.class).get(Integer.parseInt(index)));
                 }
-//                getModelMap().addAttribute("eduEnum", Arrays.asList(EduDgreeEnum.values()));
                 break;
             case "perInfo":
-                getModelMap().addAttribute(resumeInfo.getPersonalInfo());
-                break;
-            case "jobIntension":
+                if(resumeInfo != null && resumeInfo.getPersonalInfo() != null)
+                    getModelMap().addAttribute(resumeInfo.getPersonalInfo());
                 break;
             case "work":
                 if(index != null){
@@ -261,10 +212,18 @@ public class ResumeController extends BaseController {
                     getModelMap().addAttribute("projectEx",JsonUtil.jsontoList(resumeInfo.getProject(),ProjectVO.class).get(Integer.parseInt(index)));
                 }
                 break;
-            case "":
-
-                break;
         }
         return "/resume_edit/" + editType + "_edit";
+    }
+
+    @RequestMapping("/downloadResume")
+    public String downloadResume(@RequestParam Integer resumeId){
+        ResumeInfo resumeInfo = resumeService.getResumeById(resumeId);
+        ControllerUtil.addAllResume(getSession(),getModelMap(),resumeInfo);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
+        getResponse().setCharacterEncoding("UTF-8");
+        getResponse().setContentType("application/msword");
+        getResponse().addHeader("Content-Disposition", "attachment;filename="+ resumeInfo.getPersonalInfo().getName() + "_" + sdf.format(new Date()) + ".doc");
+        return "resume_download";
     }
 }

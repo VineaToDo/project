@@ -1,4 +1,11 @@
-
+upload:
+  image:
+    path: D:/home/image/
+    max-size: 2
+    accept-type:
+      - image/png
+      - image/jpeg
+      - image/jpg
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -25,3 +32,7 @@ spring:
     check-template-location: false
     template-loader-path: classpath:/templates/
     cache: false
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,file:${upload.image.path}
+server:
+  context-path: /

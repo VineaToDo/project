@@ -11,15 +11,13 @@
     <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <#--<link rel="stylesheet"type="text/css" href="/css/templatemo-style.css">-->
-
+    <link rel="stylesheet" type="text/css" href="/css/toastr.css">
 </head>
 <body>
 
 <!-- MENU -->
 <section class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <#--<div class="overlay"></div>-->
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">切换导航</span>
@@ -27,7 +25,6 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-
             <!-- lOGO TEXT HERE -->
             <a href="/user/recruit" class="navbar-brand">Recruit</a>
         </div>
@@ -46,24 +43,23 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100">简历管理<b class="caret"></b></a>
                     <ul class="dropdown-menu" style="background-color: #797977">
-                        <li><a href="#">收件箱</a></li>
-                        <li><a href="#">收藏夹</a></li>
+                        <li><a href="/deliver/goDeliverList">收件箱</a></li>
+                        <li><a href="/deliver/goCollectionList">收藏夹</a></li>
                     </ul>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100">控制面板</a>
                     <ul class="dropdown-menu" style="background-color: #797977">
-                        <li><a href="#">修改用户信息和密码</a></li>
+                        <li><a href="/index/setting">修改用户信息和密码</a></li>
                         <li><a href="/company/editCompanyInfo">修改公司信息</a></li>
                         <li><a href="/company/deptPage">设置部门结构</a></li>
                     </ul>
                 </li>
 
                 <#if Session.user??>
-                    <li><a><span class="glyphicon glyphicon-envelope"></span></a></li>
+                    <li><a href="/deliver/goDisposeList"><span class="glyphicon glyphicon-envelope"></span></a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" style="background: transparent" data-toggle="dropdown" data-hover="dropdown" data-delay="100"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-th-list"></span></a>
                         <ul class="dropdown-menu" style="background-color: #797977">
@@ -73,7 +69,6 @@
                 </#if>
             </ul>
         </div>
-
     </div>
 </section>
 
@@ -85,7 +80,11 @@
 <script src="/bootstrap/bootstrap-chinese-region.js"></script>
 <script src="/bootstrap/defaults-zh_CN.js"></script>
 <script src="/bootstrap/bootstrap-hover-dropdown.min.js"></script>
+<script src="/js/jquery.stellar.min.js"></script>
 <script src="/js/smoothscroll.js"></script>
-<script src="/js/custom.js"></script>
+<script src="/js/toastr.min.js"></script>
+<script>
+    toastr.options.positionClass = 'toast-center-center';
+</script>
 </body>
 </html>

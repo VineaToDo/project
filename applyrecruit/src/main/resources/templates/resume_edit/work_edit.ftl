@@ -26,11 +26,23 @@
 
                 <div class="form-group">
                     <label for="property" class="col-md-offset-2 col-md-2 control-label">公司性质</label>
-                    <div class="col-md-5" id="propertyDiv"></div>
+                    <div class="col-md-5" id="propertyDiv">
+                        <select class='selectpicker' multiple data-max-options='1' id='propertySelect' name='property'>
+                                <#list propertyDict?values as propertyOpt>
+                                    <option value="${propertyOpt.code}">${propertyOpt.value}</option>
+                                </#list>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="dimensions" class="col-md-offset-2 col-md-2 control-label">公司规模</label>
-                    <div class="col-md-5" id="dimensionsDiv"></div>
+                    <div class="col-md-5" id="dimensionsDiv">
+                        <select class="selectpicker" multiple data-max-options='1' id='dimensionsSelect' name='dimensions'>
+                            <#list dimensionsDict?values as dimensionsOpt>
+                                <option value="${dimensionsOpt.code}">${dimensionsOpt.value}</option>
+                            </#list>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="trade" class="col-md-offset-2 col-md-2 control-label">所属行业</label>
@@ -46,7 +58,13 @@
                 </div>
                 <div class="form-group">
                     <label for="salary" class="col-md-offset-2 col-md-2 control-label">税前月薪</label>
-                    <div class="col-md-5" id="salaryDiv"></div>
+                    <div class="col-md-5" id="salaryDiv">
+                        <select class="selectpicker" multiple data-max-options='1' id='salarySelect' name='salary'>
+                            <#list salaryDict?values as salaryOpt>
+                                <option value="${salaryOpt.code}">${salaryOpt.value}</option>
+                            </#list>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-offset-2 col-md-2 control-label">在职时间</label>
@@ -111,44 +129,29 @@
         }
     });
 
-    // $.ajaxSettings.async = false;
-    $.getJSON('/json/property.json',function (data) {
-        var $div = $('#propertyDiv');
-        initSelect($div,data,"property");
-        <#if work?? && work.property??>
+    <#if work?? && work.property??>
             $('#propertySelect').selectpicker('val',${work.property});
-        </#if>
-        $('#propertySelect').selectpicker({
-            noneSelectedText : '请选择'//默认显示内容
+    </#if>
+    $('#propertySelect').selectpicker({
+        noneSelectedText : '请选择'//默认显示内容
 
-        });
-        $('#propertySelect').selectpicker('refresh');
     });
-    $.getJSON('/json/dimensions.json',function (data) {
-        var $div = $('#dimensionsDiv');
-        initSelect($div,data,"dimensions");
-        <#if work?? && work.dimensions??>
+
+    <#if work?? && work.dimensions??>
             $('#dimensionsSelect').selectpicker('val',${work.dimensions});
-        </#if>
-        $('#dimensionsSelect').selectpicker({
-            noneSelectedText : '请选择'//默认显示内容
-        });
-        $('#dimensionsSelect').selectpicker('refresh');
+    </#if>
+    $('#dimensionsSelect').selectpicker({
+        noneSelectedText : '请选择'//默认显示内容
     });
-    $.getJSON('/json/salary.json',function (data) {
-        var $div = $('#salaryDiv');
-        initSelect($div,data,"salary");
-        <#if work?? && work.salary??>
+
+    <#if work?? && work.salary??>
             $('#salarySelect').selectpicker('val',${work.salary});
-        </#if>
-        $('#salarySelect').selectpicker({
-            noneSelectedText : '请选择'//默认显示内容
+    </#if>
+    $('#salarySelect').selectpicker({
+        noneSelectedText : '请选择'//默认显示内容
 
-        });
-        $('#salarySelect').selectpicker('refresh');
     });
 
-    // $.ajaxSettings.async = true;
     function initSelect(parent,data,selectName) {
         var select = $("<select class='selectpicker form-control' multiple data-max-options='1' id='" + selectName + "Select' name='" + selectName + "'></select>");
         for (var i = 0;i < data.length;i++){

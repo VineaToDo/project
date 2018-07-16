@@ -20,7 +20,6 @@ import java.util.Map;
  **/
 @Slf4j
 public class JsonUtil {
-
     private static final SerializeConfig config;
     static{
         config = new SerializeConfig();

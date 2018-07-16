@@ -779,107 +779,107 @@ http://www.templatemo.com/tm-509-hydro
       MODAL FORM             
   -----------------------------------------*/
 
-  @media (min-width: 992px) {
-    .modal-dialog {
-      width: 420px;
-    }
-  }
+  /*@media (min-width: 992px) {*/
+    /*.modal-dialog {*/
+      /*width: 420px;*/
+    /*}*/
+  /*}*/
 
-  .modal-open .modal {
-    padding-left: 0 !important;
-  }
+  /*.modal-open .modal {*/
+    /*padding-left: 0 !important;*/
+  /*}*/
 
-  .modal-dialog .modal-content {
-    background: #000000;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    border: none;
-    border-radius: 2px;
-    text-align: center;
-    position: relative;
-    padding: 2em;
-  }
+  /*.modal-dialog .modal-content {*/
+    /*background: #000000;  !* fallback for old browsers *!*/
+    /*background: -webkit-linear-gradient(to right, #434343, #000000);  !* Chrome 10-25, Safari 5.1-6 *!*/
+    /*background: linear-gradient(to right, #434343, #000000); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+    /*border: none;*/
+    /*border-radius: 2px;*/
+    /*text-align: center;*/
+    /*position: relative;*/
+    /*padding: 2em;*/
+  /*}*/
 
-  .modal-header, .modal-footer {
-    border-bottom: 0;
-    padding: 0;
-  }
+  /*.modal-header, .modal-footer {*/
+    /*border-bottom: 0;*/
+    /*padding: 0;*/
+  /*}*/
 
-  .modal-dialog .modal-body {
-    padding: 0;
-  }
+  /*.modal-dialog .modal-body {*/
+    /*padding: 0;*/
+  /*}*/
 
-  .modal-dialog .modal-body a {
-    color: #d9d9d9;
-  }
+  /*.modal-dialog .modal-body a {*/
+    /*color: #d9d9d9;*/
+  /*}*/
 
-  .modal .close {
-    color: #999;
-    font-size: 40px;
-    font-weight: 300;
-    text-shadow: none;
-    opacity: 1;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 100;
-    outline: none;
-  }
+  /*.modal .close {*/
+    /*color: #999;*/
+    /*font-size: 40px;*/
+    /*font-weight: 300;*/
+    /*text-shadow: none;*/
+    /*opacity: 1;*/
+    /*position: absolute;*/
+    /*top: 15px;*/
+    /*right: 15px;*/
+    /*z-index: 100;*/
+    /*outline: none;*/
+  /*}*/
 
-  .modal-dialog .modal-title {
-    margin-bottom: 20px;
-  }
+  /*.modal-dialog .modal-title {*/
+    /*margin-bottom: 20px;*/
+  /*}*/
 
-  .modal-dialog .modal-title h2 {
-    color: #ffffff;
-  }
+  /*.modal-dialog .modal-title h2 {*/
+    /*color: #ffffff;*/
+  /*}*/
 
-  .modal-dialog .nav-tabs {
-    display: inline-block;
-  }
+  /*.modal-dialog .nav-tabs {*/
+    /*display: inline-block;*/
+  /*}*/
 
-  .modal-dialog .nav-tabs > li > a {
-    border: 0;
-    color: #999999;
-    margin-right: 0;
-  }
+  /*.modal-dialog .nav-tabs > li > a {*/
+    /*border: 0;*/
+    /*color: #999999;*/
+    /*margin-right: 0;*/
+  /*}*/
 
-  .modal-dialog .nav-tabs > li.active > a, 
-  .modal-dialog .nav-tabs > li.active > a:hover, 
-  .modal-dialog .nav-tabs > li.active > a:focus,
-  .modal-dialog .nav>li>a:focus, 
-  .modal-dialog .nav>li>a:hover {
-    color: #ffffff;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid #ce3232;
-  }
+  /*.modal-dialog .nav-tabs > li.active > a, */
+  /*.modal-dialog .nav-tabs > li.active > a:hover, */
+  /*.modal-dialog .nav-tabs > li.active > a:focus,*/
+  /*.modal-dialog .nav>li>a:focus, */
+  /*.modal-dialog .nav>li>a:hover {*/
+    /*color: #ffffff;*/
+    /*background-color: transparent;*/
+    /*border: none;*/
+    /*border-bottom: 1px solid #ce3232;*/
+  /*}*/
 
-  .modal-dialog .tab-content {
-    padding-top: 20px;
-  }
+  /*.modal-dialog {*/
+    /*padding-top: 20px;*/
+  /*}*/
 
-  .modal-dialog form .form-control {
-    border-radius: 5px;
-    border: 1px solid #595959;
-    background: transparent;
-    box-shadow: none;
-    margin: 15px 0 15px 0;
-    height: 50px;
-  }
+  /*.modal-dialog form .form-control {*/
+    /*border-radius: 5px;*/
+    /*border: 1px solid #595959;*/
+    /*background: transparent;*/
+    /*box-shadow: none;*/
+    /*margin: 15px 0 15px 0;*/
+    /*height: 50px;*/
+  /*}*/
 
-  .modal-dialog form .form-control:hover,
-  .modal-dialog form .form-control:focus {
-    border-color: #ffffff;
-  }
+  /*.modal-dialog form .form-control:hover,*/
+  /*.modal-dialog form .form-control:focus {*/
+    /*border-color: #ffffff;*/
+  /*}*/
 
-  .modal-dialog form input[type="submit"] {
-    background: #ce3232;
-    border-color: transparent;
-    border-radius: 100px;
-    color: #ffffff;
-    margin-top: 20px;
-  }
+  /*.modal-dialog form input[type="submit"] {*/
+    /*background: #ce3232;*/
+    /*border-color: transparent;*/
+    /*border-radius: 100px;*/
+    /*color: #ffffff;*/
+    /*margin-top: 20px;*/
+  /*}*/
 
 
   /*---------------------------------------
@@ -1021,9 +1021,6 @@ http://www.templatemo.com/tm-509-hydro
       margin: 40px 0 40px 0;
     }
 
-    .google-map {
-      margin-top: 50px;
-    }
 
     footer {
       text-align: center;

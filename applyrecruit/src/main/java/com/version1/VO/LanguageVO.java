@@ -18,4 +18,7 @@ public class LanguageVO implements IdGetter {
     private String literacy;//读写能力
     private String speak;//听说能力
 
+    @JSONField(serialize = false)
+    private String nameValue;
+
 }

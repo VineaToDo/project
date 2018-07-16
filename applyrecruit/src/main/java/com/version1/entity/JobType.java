@@ -3,12 +3,16 @@ package com.version1.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName JobTypeRepository
@@ -17,10 +21,11 @@ import java.util.List;
  * @Version 1.0
  */
 @Entity
-@Data
+@Getter
+@Setter
 @DynamicInsert
 @DynamicUpdate
-public class JobType {
+public class JobType implements Serializable {
 
     @Id
     @GeneratedValue
@@ -29,20 +34,20 @@ public class JobType {
     @Column(length = 16)
     private String name;
 
-    private Integer jobCount;//职位数
-    private Integer hit;//点击数
+    private Integer jobCount = 0;//职位数
+    private Integer hit = 0;//点击数
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "parentId")
     private JobType parent;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "parent")
-    private List<JobType> childrens;
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH},mappedBy = "parent",fetch = FetchType.EAGER)
+    private Set<JobType> childrens;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "jobType")
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH},mappedBy = "jobType")
     private List<Position> positions;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -54,6 +59,5 @@ public class JobType {
 
     @Transient
     private Integer pid;
-
 
 }
